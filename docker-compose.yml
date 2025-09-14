@@ -1,5 +1,26 @@
 services:
   
+  chariot-sanzzo:
+    container_name: chariot-sanzzo
+    build:
+      context: ./ChariotSanzzo
+      dockerfile: Dockerfile.dev
+    ports:
+      - "11768:11768"
+    volumes:
+      - ./ChariotSanzzo:/app
+      - ~/.nuget/packages:/root/.nuget/packages:ro
+    env_file:
+      - ./ChariotSanzzo/.env
+    environment:
+      - SAFE_START_TOKEN=SafeStart
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DOTNET_ENVIRONMENT=Development
+    depends_on:
+      - chariot-api
+      - lavalink-server
+    restart: always
+
   gjallarhorn:
     container_name: gjallarhorn
     build:
