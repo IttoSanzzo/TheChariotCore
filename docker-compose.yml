@@ -1,6 +1,42 @@
 services:
   
-  
+  gjallarhorn:
+    container_name: gjallarhorn
+    build:
+      context: ./Gjallarhorn
+      dockerfile: Dockerfile.dev
+    ports:
+      - "11767:11767"
+    volumes:
+      - ./Gjallarhorn:/app
+      - ~/.nuget/packages:/root/.nuget/packages:ro
+    env_file:
+      - ./Gjallarhorn/.env
+    environment:
+      - SAFE_START_TOKEN=SafeStart
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DOTNET_ENVIRONMENT=Development
+    depends_on:
+      - chariot-api
+      - lavalink-server
+    restart: always
+      
+
+  gjallarhorn-control:
+    container_name: gjallarhorn-control
+    build:
+      context: ./GjallarhornControl
+      dockerfile: Dockerfile.dev
+    ports:
+      - "11769:11769"
+    volumes:
+      - ./GjallarhornControl:/app
+      - /app/node_modules
+    env_file:
+      - ./GjallarhornControl/.env
+    depends_on:
+      - chariot-api
+    restart: always
 
   chariot-api:
     container_name: chariot-api
@@ -45,6 +81,7 @@ services:
       - chariot-db
 
   lavalink-server:
+    container_name: lavalink-server
     image: fredboat/lavalink:3
     env_file:
       - ./Lavalink/.env

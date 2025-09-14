@@ -7,3 +7,6 @@
 [submodule "Gjallarhorn"]
 	path = Gjallarhorn
 	url = git@github.com:IttoSanzzo/Gjallarhorn.git
+[submodule "GjallarhornControl"]
+	path = GjallarhornControl
+	url = git@github.com:IttoSanzzo/GjallarhornControl.git
