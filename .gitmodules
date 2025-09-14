@@ -4,3 +4,6 @@
 [submodule "ChariotApi"]
 	path = ChariotApi
 	url = git@github.com:IttoSanzzo/ChariotAPI.git
+[submodule "Gjallarhorn"]
+	path = Gjallarhorn
+	url = git@github.com:IttoSanzzo/Gjallarhorn.git
