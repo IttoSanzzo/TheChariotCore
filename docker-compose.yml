@@ -1,0 +1,65 @@
+services:
+  
+  
+
+  chariot-api:
+    container_name: chariot-api
+    build:
+      context: ./ChariotApi
+      dockerfile: Dockerfile.dev
+    ports:
+      - "11760:11760"
+    volumes:
+      - ./ChariotApi:/app
+      - ~/.nuget/packages:/root/.nuget/packages:ro
+    env_file:
+      - ./ChariotApi/.env
+      - ./enviroment-files/.env.database
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DOTNET_ENVIRONMENT=Development
+    depends_on:
+      - chariot-db
+    restart: always
+
+  chariot-db:
+    image: postgres:16
+    container_name: chariot-db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    env_file:
+      - ./enviroment-files/.env.database
+
+  chariot-pgadmin:
+    image: dpage/pgadmin4
+    container_name: chariot-pgadmin
+    env_file:
+      - ./enviroment-files/.env.pgadmin
+    ports:
+      - "15432:80"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    depends_on:
+      - chariot-db
+
+  lavalink-server:
+    image: fredboat/lavalink:3
+    env_file:
+      - ./Lavalink/.env
+    ports:
+      - "2333:2333"
+    volumes:
+      - ./Lavalink/application.yml:/opt/Lavalink/application.yml
+      - ./Lavalink/plugins/:/opt/Lavalink/plugins/
+      - ./Lavalink/logs/:/opt/Lavalink/logs/
+    restart: always
+
+volumes:
+  postgres-data:
+    external: true
+    name: chariot-db-v1
+  pgadmin-data:
+    external: true
+    name: chariot-pgadmin-v1
