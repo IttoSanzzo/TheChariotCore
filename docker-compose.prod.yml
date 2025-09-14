@@ -1,0 +1,103 @@
+services:
+  
+  chariot-sanzzo:
+    container_name: chariot-sanzzo
+    build:
+      context: ./ChariotSanzzo
+      dockerfile: Dockerfile.prod
+    ports:
+      - "11768:11768"
+    env_file:
+      - ./ChariotSanzzo/.env
+    environment:
+      - SAFE_START_TOKEN=SafeStart
+    depends_on:
+      - chariot-api
+      - lavalink-server
+    restart: always
+
+  gjallarhorn:
+    container_name: gjallarhorn
+    build:
+      context: ./Gjallarhorn
+      dockerfile: Dockerfile.prod
+    ports:
+      - "11767:11767"
+    env_file:
+      - ./Gjallarhorn/.env
+    environment:
+      - SAFE_START_TOKEN=SafeStart
+    depends_on:
+      - chariot-api
+      - lavalink-server
+    restart: always
+      
+  gjallarhorn-control:
+    container_name: gjallarhorn-control
+    build:
+      context: ./GjallarhornControl
+      dockerfile: Dockerfile.prod
+    ports:
+      - "11769:11769"
+    env_file:
+      - ./GjallarhornControl/.env
+    depends_on:
+      - chariot-api
+    restart: always
+
+  chariot-api:
+    container_name: chariot-api
+    build:
+      context: ./ChariotApi
+      dockerfile: Dockerfile.prod
+    ports:
+      - "11760:11760"
+    env_file:
+      - ./ChariotApi/.env
+      - ./enviroment-files/.env.database
+    depends_on:
+      - chariot-db
+    restart: always
+
+  chariot-db:
+    image: postgres:16
+    container_name: chariot-db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    env_file:
+      - ./enviroment-files/.env.database
+
+  chariot-pgadmin:
+    image: dpage/pgadmin4
+    container_name: chariot-pgadmin
+    env_file:
+      - ./enviroment-files/.env.pgadmin
+    ports:
+      - "15432:80"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    depends_on:
+      - chariot-db
+
+  lavalink-server:
+    container_name: lavalink-server
+    image: fredboat/lavalink:3
+    env_file:
+      - ./Lavalink/.env
+    ports:
+      - "2333:2333"
+    volumes:
+      - ./Lavalink/application.yml:/opt/Lavalink/application.yml
+      - ./Lavalink/plugins/:/opt/Lavalink/plugins/
+      - ./Lavalink/logs/:/opt/Lavalink/logs/
+    restart: always
+
+volumes:
+  postgres-data:
+    external: true
+    name: chariot-db-v1
+  pgadmin-data:
+    external: true
+    name: chariot-pgadmin-v1
