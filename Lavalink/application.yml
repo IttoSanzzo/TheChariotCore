@@ -18,6 +18,8 @@ plugins:
       - MUSIC
       - TVHTML5EMBEDDED
       - WEB
+      - ANDROID_VR
+      - IOS
 
   lavasrc:
     providers:
@@ -51,9 +53,9 @@ lavalink:
   plugins:
     - dependency: "com.github.TopiSenpai.LavaSrc:lavasrc-plugin:3.2.10"
       repository: "https://maven.topi.wtf/releases"
-    - dependency: "dev.lavalink.youtube:youtube-plugin:1.13.5"
+    - dependency: "dev.lavalink.youtube:youtube-plugin:1.14.0"
       repository: "https://maven.lavalink.dev/releases"
-    # - dependency: "dev.lavalink.youtube:youtube-plugin:334d4a094fc9427a83d3d8c4793ff46451e8308c"
+    # - dependency: "dev.lavalink.youtube:youtube-plugin:008faf9f7a39c3f98d24fc1d5c98a9dc960a37"
     # repository: "https://maven.lavalink.dev/snapshots"
     # snapshot: true
   server:
