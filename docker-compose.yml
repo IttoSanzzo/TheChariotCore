@@ -1,15 +1,18 @@
 services:
-  
   chariot-sanzzo:
     container_name: chariot-sanzzo
     build:
       context: ./ChariotSanzzo
       dockerfile: Dockerfile.dev
+    develop:
+      watch:
+        - action: sync
+          path: ./ChariotSanzzo
+          target: /app
+          ignore:
+            - node_modules/
     ports:
       - "11768:11768"
-    volumes:
-      - ./ChariotSanzzo:/app
-      - ~/.nuget/packages:/root/.nuget/packages:ro
     env_file:
       - ./ChariotSanzzo/.env
     environment:
@@ -41,7 +44,6 @@ services:
       - chariot-api
       - lavalink-server
     restart: always
-      
 
   gjallarhorn-control:
     container_name: gjallarhorn-control
@@ -66,9 +68,13 @@ services:
       dockerfile: Dockerfile.dev
     ports:
       - "11760:11760"
-    volumes:
-      - ./ChariotApi:/app
-      - ~/.nuget/packages:/root/.nuget/packages:ro
+    develop:
+      watch:
+        - action: sync
+          path: ./ChariotApi
+          target: /app
+          ignore:
+            - node_modules/
     env_file:
       - ./ChariotApi/.env
       - ./enviroment-files/.env.database
