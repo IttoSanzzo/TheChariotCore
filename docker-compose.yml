@@ -29,11 +29,15 @@ services:
     build:
       context: ./Gjallarhorn
       dockerfile: Dockerfile.dev
+    develop:
+      watch:
+        - action: sync
+          path: ./Gjallarhorn
+          target: /app
+          ignore:
+            - node_modules/
     ports:
       - "11767:11767"
-    volumes:
-      - ./Gjallarhorn:/app
-      - ~/.nuget/packages:/root/.nuget/packages:ro
     env_file:
       - ./Gjallarhorn/.env
     environment:
