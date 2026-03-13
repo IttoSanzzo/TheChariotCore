@@ -15,6 +15,7 @@ services:
       - "11768:11768"
     env_file:
       - ./ChariotSanzzo/.env
+      - ./enviroment-files/.env.bots
     environment:
       - SAFE_START_TOKEN=SafeStart
       - ASPNETCORE_ENVIRONMENT=Development
@@ -40,6 +41,7 @@ services:
       - "11767:11767"
     env_file:
       - ./Gjallarhorn/.env
+      - ./enviroment-files/.env.bots
     environment:
       - SAFE_START_TOKEN=SafeStart
       - ASPNETCORE_ENVIRONMENT=Development
@@ -113,7 +115,7 @@ services:
 
   lavalink-server:
     container_name: lavalink-server
-    image: fredboat/lavalink:3
+    image: ghcr.io/lavalink-devs/lavalink:4
     env_file:
       - ./Lavalink/.env
     ports:
@@ -122,6 +124,17 @@ services:
       - ./Lavalink/application.yml:/opt/Lavalink/application.yml
       - ./Lavalink/plugins/:/opt/Lavalink/plugins/
       - ./Lavalink/logs/:/opt/Lavalink/logs/
+    depends_on:
+      - yt-cipher
+    restart: always
+
+  yt-cipher:
+    container_name: yt-cipher
+    image: ghcr.io/kikkia/yt-cipher:master
+    env_file:
+      - ./Lavalink/.env
+    ports:
+      - "8001:8001"
     restart: always
 
 volumes:
