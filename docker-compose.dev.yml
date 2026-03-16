@@ -15,7 +15,7 @@ services:
       - "11768:11768"
     env_file:
       - ./ChariotSanzzo/.env
-      - ./enviroment-files/.env.bots
+      - ./enviroment-files/.env.shared
     environment:
       - SAFE_START_TOKEN=SafeStart
       - ASPNETCORE_ENVIRONMENT=Development
@@ -41,7 +41,7 @@ services:
       - "11767:11767"
     env_file:
       - ./Gjallarhorn/.env
-      - ./enviroment-files/.env.bots
+      - ./enviroment-files/.env.shared
     environment:
       - SAFE_START_TOKEN=SafeStart
       - ASPNETCORE_ENVIRONMENT=Development
@@ -84,6 +84,7 @@ services:
     env_file:
       - ./ChariotApi/.env
       - ./enviroment-files/.env.database
+      - ./enviroment-files/.env.shared
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - DOTNET_ENVIRONMENT=Development
