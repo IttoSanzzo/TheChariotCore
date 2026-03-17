@@ -8,6 +8,8 @@ services:
       - "11768:11768"
     env_file:
       - ./ChariotSanzzo/.env
+      - ./enviroment-files/.env.database
+      - ./Lavalink/.env
       - ./enviroment-files/.env.shared
     environment:
       - SAFE_START_TOKEN=SafeStart
@@ -25,6 +27,8 @@ services:
       - "11767:11767"
     env_file:
       - ./Gjallarhorn/.env
+      - ./enviroment-files/.env.database
+      - ./Lavalink/.env
       - ./enviroment-files/.env.shared
     environment:
       - SAFE_START_TOKEN=SafeStart
@@ -55,6 +59,7 @@ services:
       - "11760:11760"
     env_file:
       - ./enviroment-files/.env.database
+      - ./Lavalink/.env
       - ./ChariotApi/.env
       - ./enviroment-files/.env.shared
     depends_on:
